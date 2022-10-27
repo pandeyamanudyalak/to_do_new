@@ -6,7 +6,7 @@ from django.shortcuts import render
 from .models import SharedTasks, User, UserManager,Tasks
 from .utils import send_otp_via_email
 from django.shortcuts import redirect
-from .forms import ShareTasksForm,TasksForm
+from .forms import ShareTasksForm,TasksForm,TaskForm2
 
 # Create your views here.
 
@@ -40,11 +40,15 @@ def user_login(request):
     if request.method=='POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(email=email,password=password)
+        user = User.objects.filter(email=email,is_email_verified=True)
         if user:
-            login(request,user)
-            return redirect("/home")
-        return render(request,'todoapp/user_login.html')
+            user = authenticate(email=email,password=password)
+            if user:
+                login(request,user)
+                return redirect("/home")
+            return render(request,'todoapp/user_login.html')
+        send_otp_via_email(email)
+        return render(request,"todoapp/otp_verification.html")
     return render(request,'todoapp/user_login.html')
 
 def home(request):
@@ -72,9 +76,23 @@ def task_list(request):
 
 
 def task_update(request,tid):
-    task = Tasks.objects.filter(id=tid)
-    print(task)
-    return render(request,'todoapp/update_task.html',{"task":task})
+    task = Tasks.objects.get(id=tid)
+    form = TaskForm2(instance=task)
+    task_id = task.id 
+    print(task_id)
+    if request.method=="POST":
+        
+        
+        update_form = TaskForm2(request.POST,instance=task)
+        if update_form.is_valid():
+            fm = update_form.save(commit=False)
+            fm.user = request.user
+            fm.save()
+
+
+            return HttpResponse("your task updated successfully")
+        return HttpResponse("your form is not valid")
+    return render(request,'todoapp/update_task.html',{"form":form,'tid':task_id})
 
 
 
@@ -88,18 +106,14 @@ def task_delete(request,tid):
 
 def update(request):
     if request.method=="POST":
-        tid = request.POST.get('tid')
-        print(tid)
-        title = request.POST.get("title")
-        print(title)
-        description = request.POST.get("description")
-        print(description)
-        completed = request.POST.get('completed')
-        print(completed)
-        Tasks.objects.filter(id=tid).update(title=title,description=description,is_completd=completed)
-        
+      
+        tid = request.POST.get('update_task')
+        form = TaskForm2(instance=tid)
+        if form.is_valid():
+            form.save()
 
-        return HttpResponse("your task updated successfully")
+            return HttpResponse("your task updated successfully")
+        return HttpResponse("your form is not valid")
     return HttpResponse("Gte request")
     
 

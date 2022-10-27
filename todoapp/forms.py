@@ -17,4 +17,10 @@ class TasksForm(forms.ModelForm):
     class Meta:
         model = Tasks
         fields = ['task_user']
+
+class TaskForm2(forms.ModelForm):
+    class Meta:
+        model = Tasks
+        fields = '__all__'
+
     

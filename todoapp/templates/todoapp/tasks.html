@@ -223,21 +223,23 @@ h1,a{
 	<div class="todo-list">
 
 	{% for task in tasks %}
-		<div class="item-row">
+    <div class="item-row">
 
             <h5>{{task.title}}</h5>
             <p>{{task.description}}</p>
-            {% if task.is_completd == False %}
-            <input type="checkbox" value="True">
-			
-			{% else %}
-            <input type="checkbox" value="False">
-			
-			{% endif %}
+            <label>Completed --:</label><p>{{task.is_completd}}</p>
+            <!-- {% if task.read_only == True %}
+              <a class="btn btn-sm btn-info" href="{% url 'task-update' task.id %}">Read Only</a>
+            {% else %}
+              <a class="btn btn-sm btn-danger" href="{% url 'share-task' task.id %}">Share Task</a>
+            {% endif %} -->
+
             
-			<a class="btn btn-sm btn-info" href="{% url 'task-update' task.id %}">Update</a>
-			<a class="btn btn-sm btn-danger" href="{% url 'task-delete' task.id %}">Delete</a>
-            <a class="btn btn-sm btn-danger" href="{% url 'share-task' task.id %}">Share Task</a>
+            
+      <a class="btn btn-sm btn-info" href="{% url 'task-update' task.id %}">Update</a>
+      <a class="btn btn-sm btn-danger" href="{% url 'task-delete' task.id %}">Delete</a>
+      <a class="btn btn-sm btn-danger" href="{% url 'share-task' task.id %}">Share Task</a>
+    </div>
 
 			
 	{% endfor %}

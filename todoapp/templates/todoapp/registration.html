@@ -130,7 +130,7 @@
              transform: scale(0.92) translate(0, 32px);
    }
 
-h1,a{
+h1{
 		font-family: 'Parisienne', cursive;
 		color: #fff;
 		font-size:50px;
@@ -148,18 +148,21 @@ h1,a{
 		<div class="register-block">
 		
 			<p>Register</p>
-			<form method="POST" action="/register">
+			<form method="POST" action="">
         {% csrf_token %}
         <input type="email" name="email" placeholder="Enter your email"/>
         <input type="password" name="password" placeholder="Enter your password" />
         <input type="submit" value="Create my account"/>
+        
 			</form>
+      <a class="btn btn-sm btn-info" href="{% url 'user-login' %}">Login</a>
 		</div>
+    
 		</div>
+
 	</section>
+
 </div>
-	<footer>
-		<a href="https://twitter.com/Lilykhan786" target="_blank">Lily.</a>
-	</footer>
+	
 </body>
 </html>

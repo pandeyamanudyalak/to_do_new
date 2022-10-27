@@ -148,22 +148,23 @@ h1,a{
 		<div class="register-block">
 		
 			<p>Register</p>
-			<form method="POST" action="/update">
+			<form method="POST" action="/task_update/{{tid}}">
                 {% csrf_token %}
-                {% for t in task %}
+                
+                {{form}}
+                <!-- {% for t in task %}
                     <input type="hidden" name="tid" value="{{t.id}}">
                     <input type="title" name="title" value="{{t.title}}"/>
                     <input type="text" name="description" value="{{t.description}}"/>
                     <label >Completed</label><input style="height:20px" type="checkbox" name="completed"  value="{{t.is_completd}}"/>
-                    <input type="submit" value="Update Task"/>
-                {% endfor %}
+                    
+                {% endfor %} -->
+                <input type="submit" value="Update Task"/>
 			</form>
 		</div>
 		</div>
 	</section>
 </div>
-	<footer>
-		<a href="https://twitter.com/Lilykhan786" target="_blank">Lily.</a>
-	</footer>
+	
 </body>
 </html>

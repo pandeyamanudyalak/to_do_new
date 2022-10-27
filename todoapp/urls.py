@@ -3,9 +3,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('register',views.register),
+    path('',views.register),
     path('verify_email',views.user_registratiob_otp_verification),
-    path('user_login',views.user_login),
+    path('user_login',views.user_login,name="user-login"),
     path('home',views.home),
     path('add_task',views.add_task),
     path('all_task',views.task_list),
