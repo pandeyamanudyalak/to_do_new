@@ -1,5 +1,7 @@
 
 
+from asyncio import Task
+from re import L
 from django.contrib.auth import authenticate,login
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -82,16 +84,17 @@ def task_update(request,tid):
     for t in t:
         l.append(t.id)
     print(l)
-    task = Tasks.objects.get(id=tid)
+    task = SharedTasks.objects.get(id=tid)
    
-    form = TaskForm2(instance=task)
+    form = ShareTasksUpdateForm(instance=task)
     task_id = task.id 
     print(task_id)
     if request.method=="POST":
-        update_form = TaskForm2(request.POST,instance=task)
+        update_form = ShareTasksUpdateForm(request.POST,instance=task)
         if update_form.is_valid():
             fm = update_form.save(commit=False)
             fm.user = request.user
+            fm.notify = True
             fm.save()
 
 
@@ -123,11 +126,13 @@ def Share(request):
         user = User.objects.get(id=user_id)
         print(user)
         read_only = request.POST.get('read_only')
+        print('---------------resd inly',read_only)
+        can_update = request.POST.get('can_update')
        
 
         update = request.POST.get('update')
         print(update)
-        task = SharedTasks.objects.create(to_user=user,tasks=tk,assigned_by=request.user.id)
+        task = SharedTasks.objects.create(to_user=user,can_update=True if can_update == 'on' else False,read_only=True if read_only == 'on' else False,tasks=tk,title=tk.title,description=tk.description,assigned_by=request.user.id)
         task.save()
 
         return HttpResponse("Your Task Successfully shared")
@@ -139,7 +144,8 @@ def ReceivedTasks(request):
     
 
 def UpdateAssignedTask(request,tid):
-    task = SharedTasks.objects.get(tasks_id=tid)
+    print('----------------tid',tid)
+    task = SharedTasks.objects.get(id=tid)
     form =ShareTasksUpdateForm(instance=task)
     if request.method=='POST':
         task = SharedTasks.objects.filter(tasks_id=tid)
@@ -148,3 +154,27 @@ def UpdateAssignedTask(request,tid):
         return render(request,'todoapp/update_assigned_task.html',{"task":task})
 
     return render(request,'todoapp/update_assigned_task.html',{'form':form})
+
+
+def NotificationForVerification(request):
+    user_id =request.user.id
+    print(user_id)
+    data = SharedTasks.objects.filter(assigned_by=user_id,notify=True)
+    return render(request,'todoapp/notification.html',{'data':data})
+
+def VerifyTask(request,id):
+   shared_task_data = SharedTasks.objects.get(id = id)
+   data = Tasks.objects.get(id = shared_task_data.tasks_id)
+   data.title = shared_task_data.title
+   data.description = shared_task_data.description
+   data.save()
+   return HttpResponse("Your Task is verify and updated.")
+
+def RejectTask(request,id):
+    shared_task_data = SharedTasks.objects.get(id = id)
+    data = Tasks.objects.get(id = shared_task_data.tasks_id)
+    data.title = shared_task_data.title
+    data.description = shared_task_data.description
+    return HttpResponse("Your Task is Rejected.")
+
+    

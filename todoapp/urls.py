@@ -16,6 +16,9 @@ urlpatterns = [
     path('share_task/<int:tid>',views.ShareTask,name='share-task'),
     path('share',views.Share),
     path('received_tasks',views.ReceivedTasks,name='received-tasks'),
-    path('update_assigned_task/<int:tid>',views.UpdateAssignedTask,name='update-assigned-task')
+    path('update_assigned_task/<int:tid>',views.UpdateAssignedTask,name='update-assigned-task'),
+    path('notify',views.NotificationForVerification,name='notify'),
+    path('verify_task_update/<int:id>',views.VerifyTask,name='verify'),
+    path('reject/<int:id>',views.RejectTask,name='reject'),
 
 ]

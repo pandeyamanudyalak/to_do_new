@@ -89,9 +89,10 @@ class User(AbstractBaseUser):
 
 
 class Tasks(models.Model):
-   
+    
     task_user = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
+    #due_date = models.DateField()
     description = models.CharField(max_length=500)
     is_completd = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -108,7 +109,12 @@ class SharedTasks(models.Model):
     assigned_by = models.CharField(max_length=100)
     read_only = models.BooleanField(default=False)
     can_update = models.BooleanField(default=False)
+    notify = models.BooleanField(default=False)
+    title = models.CharField(max_length=100,default='new')
+    description = models.CharField(max_length=500,default="new_task")
 
 
     def __str__(self):
         return str(self.to_user)
+
+

@@ -18,7 +18,14 @@ class TasksForm(forms.ModelForm):
         model = Tasks
         fields = ['task_user']
 
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+
 class TaskForm2(forms.ModelForm):
+   
     class Meta:
         model = Tasks
         fields = '__all__'
@@ -28,4 +35,4 @@ class TaskForm2(forms.ModelForm):
 class ShareTasksUpdateForm(forms.ModelForm):
     class Meta:
         model = SharedTasks
-        fields = '__all__'
+        fields = ['title','description']

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tasks</title>
 </head>
 <body>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -68,13 +68,14 @@
 
 	{% for task in task %}
 		<div class="item-row">
-            <h5>{{task.tasks.title}}</h5>
-            <p>{{task.tasks.description}}</p>
+			<p>{{task.id}}</p>
+            <h5>{{task.title}}</h5>
+            <p>{{task.description}}</p>
             <p>Completed--{{task.tasks.is_completd}}</p>
             {% if task.read_only == True %}
 				<a class="btn btn-sm btn-info" >Read Only</a>	
             {% elif task.can_update == True %}
-                <a class="btn btn-sm btn-info" href="{% url 'task-update' task.tasks.id %}">Update</a>
+                <a class="btn btn-sm btn-info" href="{% url 'task-update' task.id %}">Update</a>
 				<a class="btn btn-sm btn-info" >Read</a>	
 			
             {% endif %}
