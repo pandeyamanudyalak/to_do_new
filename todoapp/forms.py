@@ -23,4 +23,9 @@ class TaskForm2(forms.ModelForm):
         model = Tasks
         fields = '__all__'
 
-    
+
+
+class ShareTasksUpdateForm(forms.ModelForm):
+    class Meta:
+        model = SharedTasks
+        fields = '__all__'

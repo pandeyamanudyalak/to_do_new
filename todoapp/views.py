@@ -6,7 +6,7 @@ from django.shortcuts import render
 from .models import SharedTasks, User, UserManager,Tasks
 from .utils import send_otp_via_email
 from django.shortcuts import redirect
-from .forms import ShareTasksForm,TasksForm,TaskForm2
+from .forms import ShareTasksForm,TasksForm,TaskForm2,ShareTasksUpdateForm
 
 # Create your views here.
 
@@ -138,10 +138,13 @@ def ReceivedTasks(request):
     return render(request,'todoapp/received_tasks.html',{"task":task})
     
 
-# def UpdateAssignedTask(request,tid):
-#     if request.method=='POST':
-#         task = SharedTasks.objects.get(tasks_id=tid)
-#         print(task)
-#         return HttpResponse("tasl")
+def UpdateAssignedTask(request,tid):
+    task = SharedTasks.objects.get(tasks_id=tid)
+    form =ShareTasksUpdateForm(instance=task)
+    if request.method=='POST':
+        task = SharedTasks.objects.filter(tasks_id=tid)
+        print(task)
+        
+        return render(request,'todoapp/update_assigned_task.html',{"task":task})
 
-#     return render(request,'todoapp/update_assigned_task.html')
+    return render(request,'todoapp/update_assigned_task.html',{'form':form})

@@ -74,7 +74,7 @@
             {% if task.read_only == True %}
 				<a class="btn btn-sm btn-info" >Read Only</a>	
             {% elif task.can_update == True %}
-                <a class="btn btn-sm btn-info" href="{% url 'task-update' task.id %}">Update</a>
+                <a class="btn btn-sm btn-info" href="{% url 'task-update' task.tasks.id %}">Update</a>
 				<a class="btn btn-sm btn-info" >Read</a>	
 			
             {% endif %}
