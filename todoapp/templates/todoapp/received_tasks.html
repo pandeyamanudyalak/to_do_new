@@ -58,12 +58,6 @@
 
 <div class="center-column">
 
-	<!-- <form method="POST" action="/">
-		{% csrf_token %}
-		{{form.title}}
-		<input class="btn btn-info" type="submit" name="Create Task">
-	</form> -->
-
 	<div class="todo-list">
 
 	{% for task in task %}
@@ -74,11 +68,12 @@
             <p>Completed--{{task.tasks.is_completd}}</p>
             {% if task.read_only == True %}
 				<a class="btn btn-sm btn-info" >Read Only</a>	
-            {% elif task.can_update == True %}
+            {% if task.can_update == True %}
                 <a class="btn btn-sm btn-info" href="{% url 'task-update' task.id %}">Update</a>
-				<a class="btn btn-sm btn-info" >Read</a>	
+					
 			
             {% endif %}
+			{% endif %}
            
 			
 		</div>
