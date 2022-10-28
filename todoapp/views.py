@@ -76,13 +76,18 @@ def task_list(request):
 
 
 def task_update(request,tid):
+    t = Tasks.objects.all()
+    l = []
+
+    for t in t:
+        l.append(t.id)
+    print(l)
     task = Tasks.objects.get(id=tid)
+   
     form = TaskForm2(instance=task)
     task_id = task.id 
     print(task_id)
     if request.method=="POST":
-        
-        
         update_form = TaskForm2(request.POST,instance=task)
         if update_form.is_valid():
             fm = update_form.save(commit=False)
@@ -104,17 +109,17 @@ def task_delete(request,tid):
 
 
 
-def update(request):
-    if request.method=="POST":
+# def update(request):
+#     if request.method=="POST":
       
-        tid = request.POST.get('update_task')
-        form = TaskForm2(instance=tid)
-        if form.is_valid():
-            form.save()
+#         tid = request.POST.get('update_task')
+#         form = TaskForm2(instance=tid)
+#         if form.is_valid():
+#             form.save()
 
-            return HttpResponse("your task updated successfully")
-        return HttpResponse("your form is not valid")
-    return HttpResponse("Gte request")
+#             return HttpResponse("your task updated successfully")
+#         return HttpResponse("your form is not valid")
+#     return HttpResponse("Gte request")
     
 
 
@@ -138,10 +143,10 @@ def Share(request):
 
         update = request.POST.get('update')
         print(update)
-        task = SharedTasks.objects.create(to_user=user,tasks=tk)
+        task = SharedTasks.objects.create(to_user=user,tasks=tk,assigned_by=request.user.id)
         task.save()
 
-        return HttpResponse("ffhjkddjkf")
+        return HttpResponse("Your Task Successfully shared")
 
 def ReceivedTasks(request):
     user_id = request.user.id

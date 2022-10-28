@@ -109,6 +109,7 @@ class Tasks(models.Model):
 class SharedTasks(models.Model):
     to_user = models.ForeignKey(User,on_delete=models.CASCADE)
     tasks = models.ForeignKey(Tasks,on_delete=models.CASCADE)
+    assigned_by = models.CharField(max_length=100)
     read_only = models.BooleanField(default=False)
     can_update = models.BooleanField(default=False)
 

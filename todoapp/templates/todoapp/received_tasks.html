@@ -70,11 +70,13 @@
 		<div class="item-row">
             <h5>{{task.tasks.title}}</h5>
             <p>{{task.tasks.description}}</p>
-            <p>{{task.tasks.is_completd}}</p>
+            <p>Completed--{{task.tasks.is_completd}}</p>
             {% if task.read_only == True %}
 				<a class="btn btn-sm btn-info" >Read Only</a>	
             {% elif task.can_update == True %}
                 <a class="btn btn-sm btn-info" href="{% url 'task-update' task.id %}">Update</a>
+				<a class="btn btn-sm btn-info" >Read</a>	
+			
             {% endif %}
            
 			
