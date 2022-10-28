@@ -89,15 +89,11 @@ class User(AbstractBaseUser):
 
 
 class Tasks(models.Model):
-    # completed = (
-    #     ('yes','Yes'),
-    #     ('no',"No")
-    # )
+   
     task_user = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     is_completd = models.BooleanField(default=False)
-    #is_completd = models.CharField(choices=completed,max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 

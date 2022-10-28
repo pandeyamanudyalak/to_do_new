@@ -76,7 +76,7 @@ def task_list(request):
 
 
 def task_update(request,tid):
-    t = Tasks.objects.all()
+    t = SharedTasks.objects.all()
     l = []
 
     for t in t:
@@ -108,22 +108,6 @@ def task_delete(request,tid):
     
 
 
-
-# def update(request):
-#     if request.method=="POST":
-      
-#         tid = request.POST.get('update_task')
-#         form = TaskForm2(instance=tid)
-#         if form.is_valid():
-#             form.save()
-
-#             return HttpResponse("your task updated successfully")
-#         return HttpResponse("your form is not valid")
-#     return HttpResponse("Gte request")
-    
-
-
-
 def ShareTask(request,tid):
     user_form = TasksForm()
     share_task_form = ShareTasksForm()
@@ -152,3 +136,12 @@ def ReceivedTasks(request):
     user_id = request.user.id
     task = SharedTasks.objects.filter(to_user=user_id)
     return render(request,'todoapp/received_tasks.html',{"task":task})
+    
+
+# def UpdateAssignedTask(request,tid):
+#     if request.method=='POST':
+#         task = SharedTasks.objects.get(tasks_id=tid)
+#         print(task)
+#         return HttpResponse("tasl")
+
+#     return render(request,'todoapp/update_assigned_task.html')
